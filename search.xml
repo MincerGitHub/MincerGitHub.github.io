@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/11/12/hello-world/</url>
+    <content><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server$ hexo server
+
+More info: Server
+Generate static files$ hexo generate
+
+More info: Generating
+Deploy to remote sites$ hexo deploy
+
+More info: Deployment
+]]></content>
+  </entry>
+  <entry>
+    <title>workflow</title>
+    <url>/2025/11/13/workflow/</url>
+    <content><![CDATA[git 工作流（以drop-table模块为例）
+以下用命令行操作，也可在vscode上用图形化界面操作
+
+
+每个模块另建分支，进行开发
+
+# 1. 针对该模块,创建新的分支:git pull origin competition-2025 # 开启新模块的开发之前，拉取远程主分支的最新代码 -666git checkout -b drop-table# 2. 开发过程中，不断在你的分支上提交：git add .git commit -m &#x27;开发阶段1的说明&#x27; # 提交到本地的 drop-table 分支git push origin drop-table # 同步到远程的 drop-table 分支git add .git commit -m &#x27;开发阶段2的说明&#x27; # 提交到本地的 drop-table 分支git add .git commit -m &#x27;开发阶段3的说明&#x27; # 提交到本地的 drop-table 分支git push origin drop-table # 同步到远程的 drop-table 分支# 3. 确保完成开发后，合并分支：git checkout competition-2025 # 返回主分支git pull origin competition-2025 # 保证本地的 competition-2025 分支（即主分支）的代码最新git merge --no-ff drop-table# /*# 若别人在 -666 处的远程仓库的基础上，抢先合并了新的模块，你可能需要处理冲突：#   先在 vscode 内手动操作文件内容，解决冲突，然后git add lsm_table_engine.cpp lsm_table_engine.h # 重新 add 所有冲突的文件git commit -m &quot;解决冲突并合并分支&quot;# */git push origin competition-2025 # 将代码同步到远程# 4. 删除已经merge过的分支git branch -d drop-table # 删除本地的分支git push origin --delete drop-table # 删除远程的分支
+
+
+随时可以检查远程仓库的状态，查看成员的开发进度
+
+git fetch origingit log origin/你想查看的分支名 # 只看远程仓库里一个分支上的commit# 或者git log --remotes # 看远程仓库里所有分支上的commit
+
+git log 有用的参数：–graph      用图描述，较直观–oneline    仅一行描述，较简洁
+
+
+回滚
+
+git log # 确定目标commit的哈希值# 在未提交之前就要撤销所有更改：git reset --hard HEAD# 在模块分支上撤销一次提交：git revert commit的哈希值# 在模块分支上撤销多次提交（-n 参数使得最后需自行commit）：git revert -n commit1的哈希值..commit4的哈希值 # 范围左开右闭，因此为撤销3次，即代码回到commit1的状态git commit -m &quot;撤销多次提交&quot;# 在主分支上取消合并：git revert -m 1 commit的哈希值
+
+
+
+
+配置要点
+安装 docker desktop
+
+
+配置国内镜像源：以便在国内拉取镜像   打开 docker desktop -&gt; 设置 -&gt; Docker Engine -&gt; 输入
+   &#123;&quot;features&quot;: &#123;    &quot;buildkit&quot;: true&#125;,&quot;registry-mirrors&quot;: [    &quot;https://docker.1ms.run&quot;,    &quot;https://docker-0.unsee.tech&quot;,    &quot;https://docker.m.daocloud.io&quot;]&#125;
+修改 Disk image location：防止 c 盘爆了 &#x2F; 不安装到c盘——自定义路径安装docker(但我没用)
+
+
+
+Github 远程仓库操作
+
+clone miniob 在 github 上的代码
+
+
+
+设置 git bash ：以防clone时错误地将换行符 LF（Unix系统的换行符） 自动转换为 CRLF（Windows系统的换行符）
+  git config --global core.autocrlf false
+clone：
+  git clone https://github.com/MincerGitHub/miniob.git
+
+
+获取 miniob 的 docker image
+
+
+这里选择 pull from github：
+  docker pull ghcr.io/oceanbase/miniob &amp;&amp; docker tag ghcr.io/oceanbase/miniob oceanbase/miniob
+
+
+基于 oceanbase&#x2F;miniob 镜像创建并启动 container
+
+  docker run -d --name miniob --privileged -v $PWD/miniob:/root/miniob oceanbase/miniob
+
+
+  docker run：创建并启动一个新容器。
+  -d：全称 --detach，表示以“分离模式”运行容器（即后台运行）
+  --name fortest：为容器指定一个自定义名称“fortest”，方便后续通过名称管理容器（如启动、停止、进入容器等） 
+  --privileged：允许容器内的进程获得接近主机的权限 , 方便调试
+  -v $PWD/miniob:/root/miniob：用于将主机目录与容器目录进行“绑定挂载”（bind mount），实现两者的文件实时同步。 
+- `$PWD` 是当前终端的“当前工作目录”（例如 `/home/user/project`）。 
+    - `$PWD/miniob` 表示主机上的目录（即当前工作目录下的 `miniob` 文件夹，通常是本地克隆的 MiniOB 源代码目录）。 
+    - `:/root/miniob` 表示容器内的目录（即容器中 `/root/miniob` 路径）。 
+    - 效果：主机的 `$PWD/miniob` 目录与容器的 `/root/miniob` 目录完全绑定，两者的文件修改会实时同步（主机修改代码后，容器内可直接读取到；容器内编译生成的文件也会同步到主机）。 
+
+  oceanbase/miniob：指定创建容器所基于的 Docker 镜像 ( 如果本地没有该镜像，Docker 会自动从远程仓库拉取)
+
+
+在 vscode 中启动 docker
+
+
+通过docker插件, 对刚刚创建的 container 点击 Attach Shell , 可以看到容器内的终端被创建出来
+
+安装依赖: 
+  bash build.sh init
+构建: 
+   lscd miniobbash build.sh debug
+运行:
+
+“直接执行命令”的模式: ./bin/observer -f ../etc/observer.ini -P cli
+
+-f: 设置配置文件
+-P: 设置通讯协议
+
+
+“以监听TCP端口的方式启动服务端, 再启动客户端连接服务端”的模式:# 服务端./bin/observer -f ../etc/observer.ini -p 6789# 客户端./bin/obclient -p 6789
+
+
+
+
+尝试使用此数据库
+
+
+在 miniob &gt; 后输入指令, 可输入 help 得知各个指令
+
+
+尝试调试，以了解代码结构
+
+
+启动 debug -&gt; 打断点  -&gt; 输入命令 -&gt; 单步调试
+
+]]></content>
+  </entry>
+</search>
