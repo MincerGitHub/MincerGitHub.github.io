@@ -10,7 +10,7 @@
   <meta name="description" content="a student from ShanDong University">
   
   <title>
-    workflow |
+    miniob参赛记录与心得（OceanBase计算机系统能力大赛） |
     
     Mincer
   </title>
@@ -34,7 +34,7 @@
 <body>
   <main class="content">
     <section class="outer">
-  <article id="post-workflow" class="article article-type-post" itemscope
+  <article id="post-miniob" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -43,7 +43,7 @@
       
   
   <h1 class="article-title" itemprop="name">
-    workflow
+    miniob参赛记录与心得（OceanBase计算机系统能力大赛）
   </h1>
   
   
@@ -53,7 +53,7 @@
 
     
     <div class="article-meta">
-      <a href="/2025/11/13/workflow/" class="article-date">
+      <a href="/2025/11/13/miniob/" class="article-date">
   <time datetime="2025-11-12T16:43:36.000Z" itemprop="datePublished">2025-11-13</time>
 </a>
       
@@ -70,7 +70,33 @@
       
       
       
-        <h2 id="git-工作流（以drop-table模块为例）"><a href="#git-工作流（以drop-table模块为例）" class="headerlink" title="git 工作流（以drop-table模块为例）"></a>git 工作流（以drop-table模块为例）</h2><blockquote>
+        <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本比赛的目标是完成<strong>数据库内核</strong>的编写：</p>
+<ul>
+<li>初赛 - 简易数据库miniob</li>
+<li>决赛 - 数据库oceanbase</li>
+</ul>
+<p>完全没学过数据库系统，只会几个SQL语句的情况下，跟队友硬着头皮就上了！</p>
+<p>按结果看，大概是一次失败的尝试……（根本没做几个题，解题记录日后再说……）</p>
+<p>但秉着 “过程最重要的” 心态，还是决定写一篇blog记录自己学到的零零散散小知识：</p>
+<ul>
+<li>数据库系统知识</li>
+<li>通过 git 进行多人协作</li>
+<li>利用官方提供的 docker 镜像，获得开箱即用的工作环境</li>
+</ul>
+<hr>
+<h2 id="数据库系统知识"><a href="#数据库系统知识" class="headerlink" title="数据库系统知识"></a>数据库系统知识</h2><p>一个博客肯定是塞不下数据库如此庞大的知识体系的，等开数据库课程了再补充。这里列几个学习资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV169QhYZEhn/">CMU15-445《数据库系统导论》</a></li>
+<li><a target="_blank" rel="noopener" href="https://oceanbase.github.io/miniob/">miniob架构文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://open.oceanbase.com/course/641">2025从0到1数据库实践教程（miniob）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/662734805">miniob环境配置速通教程（Oceanbase数据库大赛&#x2F;SDU数据库实验）超级手把手版</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/671981637">折腾日记（做题思路）</a></li>
+<li><a target="_blank" rel="noopener" href="http://47.115.217.200/2025/03/04/miniob-class-report/index.html">实验报告（做题思路）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/RushDB-Lab/miniob-RushDB">第四届 OceanBase 数据库大赛 MiniOB 初赛第一名代码</a></li>
+</ul>
+<p>ps. 本来打算不管数据库知识，直接盘代码来着，结果一败涂地，断点打打打打到厌倦 —— 还是得先学点垂直知识</p>
+<hr>
+<h2 id="git-工作流（以drop-table模块为例）"><a href="#git-工作流（以drop-table模块为例）" class="headerlink" title="git 工作流（以drop-table模块为例）"></a>git 工作流（以drop-table模块为例）</h2><blockquote>
 <p>以下用命令行操作，也可在vscode上用图形化界面操作</p>
 </blockquote>
 <ul>
@@ -90,9 +116,7 @@
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span> <span class="comment"># 确定目标commit的哈希值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在未提交之前就要撤销所有更改：</span></span><br><span class="line">git reset --hard HEAD</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在模块分支上撤销一次提交：</span></span><br><span class="line">git revert commit的哈希值</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在模块分支上撤销多次提交（-n 参数使得最后需自行commit）：</span></span><br><span class="line">git revert -n commit1的哈希值..commit4的哈希值 <span class="comment"># 范围左开右闭，因此为撤销3次，即代码回到commit1的状态</span></span><br><span class="line">git commit -m <span class="string">&quot;撤销多次提交&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在主分支上取消合并：</span></span><br><span class="line">git revert -m 1 commit的哈希值</span><br></pre></td></tr></table></figure>
 
-
-
-
+<hr>
 <h2 id="配置要点"><a href="#配置要点" class="headerlink" title="配置要点"></a>配置要点</h2><ol>
 <li>安装 docker desktop</li>
 </ol>
@@ -177,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mincergithub.github.io/2025/11/13/workflow/" data-id="cuidbl01liOH0wYRO0T2wPv7i" class="article-share-link">
+      <a data-url="https://mincergithub.github.io/2025/11/13/miniob/" data-id="cuidf1byoamSgEk-JusCkGko5" class="article-share-link">
         Share
       </a>
       
@@ -189,10 +213,19 @@
   
 <nav class="article-nav">
   
+  <a href="/2025/11/19/cumcm/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      cumcm
+      
+    </div>
+  </a>
   
-  <a href="/2025/11/12/hello-world/" class="article-nav-link">
+  
+  <a href="/2025/05/18/meowfish/" class="article-nav-link">
     <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">Hello World</div>
+    <div class="article-nav-title">meowfish —— openlab黑客松参赛记录</div>
   </a>
   
 </nav>
