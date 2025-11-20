@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="description" content="a student from ShanDong University">
+  
+  <title>
+    入门级实用 git 指令和配置 |
+    
+    Mincer
+  </title>
+  <!-- Icon -->
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-git" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+  
+  <h1 class="article-title" itemprop="name">
+    入门级实用 git 指令和配置
+  </h1>
+  
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2025/11/20/git/" class="article-date">
+  <time datetime="2025-11-20T10:00:21.000Z" itemprop="datePublished">2025-11-20</time>
+</a>
+      
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+        <p>本文从功能出发，对 git 常用指令进行了介绍，适合新手快速上手</p>
+<p>其中夹杂几个我配置 git 时踩的坑，及解决方案</p>
+<p>更多 <strong>git 工作流程</strong> 相关知识，在 <a href="https://mincergithub.github.io/2025/11/13/miniob/">miniob</a> 那篇 blog 里有介绍</p>
+<p>这里列几个学习资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1e541137Tc/">Github 新手够用指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1db4y1d79C/">40 分钟学会 Git | 日常开发全程大放送&amp;搭配Github</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pX4y1S7Dq/">30分钟弄懂所有工作Git必备操作</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1EG4y1Z7WW/">忽略文件版本控制gitignore详解</a></li>
+</ul>
+<hr>
+<h2 id="实用-git"><a href="#实用-git" class="headerlink" title="实用 git"></a>实用 git</h2><h3 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h3><p>git clone &lt;git地址&gt;</p>
+<ul>
+<li>克隆仓库</li>
+</ul>
+<p>git init</p>
+<ul>
+<li>初始化仓库</li>
+</ul>
+<p>git add -A</p>
+<ul>
+<li>添加文件到暂存区</li>
+</ul>
+<p>git commit -m “提交信息”</p>
+<ul>
+<li>把暂存区的文件提交到仓库</li>
+</ul>
+<p>git commit –amend -m “提交信息”</p>
+<ul>
+<li>修正本地的commit信息</li>
+</ul>
+<p>git log –stat</p>
+<ul>
+<li>查看提交的历史记录reset</li>
+</ul>
+<h3 id="分支："><a href="#分支：" class="headerlink" title="分支："></a>分支：</h3><p>git checkout -b <branchname></p>
+<ul>
+<li>以当前分支为基础新建分支</li>
+</ul>
+<p>git branch</p>
+<ul>
+<li>列举所有的分支</li>
+</ul>
+<p>git checkout <branchname></p>
+<ul>
+<li>单纯地切换到某个分支</li>
+</ul>
+<p>git branch -D <branchname></p>
+<ul>
+<li>删掉特定的分支</li>
+</ul>
+<p>git merge <branchname></p>
+<ul>
+<li>把 branchname 合并到当前分支下</li>
+</ul>
+<p>git push</p>
+<ul>
+<li>推送当前分支最新的提交到远程</li>
+</ul>
+<p>git pull</p>
+<ul>
+<li>拉取远程分支最新的提交到本地，并与本地代码合并</li>
+<li>pull &#x3D; fetch + merge</li>
+</ul>
+<h3 id="冲突："><a href="#冲突：" class="headerlink" title="冲突："></a>冲突：</h3><h4 id="push分支时出现版本跟不上main的情况："><a href="#push分支时出现版本跟不上main的情况：" class="headerlink" title="push分支时出现版本跟不上main的情况："></a>push分支时出现版本跟不上main的情况：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br><span class="line">git merge upstream/main</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改区间冲突："><a href="#修改区间冲突：" class="headerlink" title="修改区间冲突："></a>修改区间冲突：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line"><span class="comment"># 然后打开给出的冲突文件，手动修改（vscode 修改很方便，其他的 vim 等文本编辑器也行）</span></span><br><span class="line"><span class="comment"># 删除标记符号和不想要的内容后...</span></span><br><span class="line">git add &lt;fileName&gt;</span><br><span class="line">git commit -m<span class="string">&quot;合并new_branch分支并解决冲突&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="后悔药："><a href="#后悔药：" class="headerlink" title="后悔药："></a>后悔药：</h3><h4 id="git-仓库"><a href="#git-仓库" class="headerlink" title="git 仓库"></a>git 仓库</h4><p>git checkout <fileName></p>
+<ul>
+<li>工作区回滚</li>
+</ul>
+<p>git reset HEAD^1</p>
+<ul>
+<li>撤销最后一次提交</li>
+</ul>
+<h4 id="工作区代码"><a href="#工作区代码" class="headerlink" title="工作区代码"></a>工作区代码</h4><ul>
+<li>未add：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;fileName&gt;  # 原理：从暂存区回复到工作区</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>已add未commit：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span>  <span class="comment"># 复制最近一次 commit 的 id</span></span><br><span class="line">git checkout commitid &lt;复制的<span class="built_in">id</span>&gt; &lt;fileName&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>已commit想恢复到之前的某次commit：同上</li>
+</ul>
+<h3 id="缓存："><a href="#缓存：" class="headerlink" title="缓存："></a>缓存：</h3><p>git stash 缓存栈</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br><span class="line"><span class="comment"># 切换分支工作后...</span></span><br><span class="line">git stash apply</span><br></pre></td></tr></table></figure>
+
+<p>若想指定某次缓存的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br><span class="line">git stash list  <span class="comment"># 目的找到想恢复的状态：xxx</span></span><br><span class="line"><span class="comment"># 切换分支工作后...</span></span><br><span class="line">git stash apply stash@&#123;x&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<br>git stash 的本质：保存「工作区 &#x2F; 暂存区与 HEAD（最近一次提交）的差异」，并将工作区重置为 HEAD 状态<br>因此 git stash 后，你的工作区代码会恢复到与 commit 的节点相同的状态，也就是说你修改的代码看起来全都没了，并保存在了stash stack中</p>
+</blockquote>
+<h3 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h3><h4 id="不想追踪"><a href="#不想追踪" class="headerlink" title="不想追踪"></a>不想追踪</h4><p>将不想追踪的文件的路径放在里面，你的 git 就不会记录这个文件的变化</p>
+<p>e.g. 用 <code>*</code> 排除 public 目录里除了 theone.txt 以外的全部的文件，则要保证该文件的父目录未排除，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/public/*</span><br><span class="line">!/public/thatone.txt</span><br></pre></td></tr></table></figure>
+
+<h4 id="取消追踪"><a href="#取消追踪" class="headerlink" title="取消追踪"></a>取消追踪</h4><p>以上只能忽略没有被追踪过的文件</p>
+<p>若不想再追踪已追踪过的文件，可以追加如下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">rm</span> --cached &lt;fileName&gt;  <span class="comment"># 若对象是目录，加上 -r 选项</span></span><br></pre></td></tr></table></figure>
+
+<p>检查是否成功排除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git check-ignore -v &lt;fileName&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="远程-remote"><a href="#远程-remote" class="headerlink" title="远程 remote"></a>远程 remote</h3><p>git remote -v</p>
+<ul>
+<li>查看当前版本库对应的远程仓库</li>
+</ul>
+<p>git branch -vv</p>
+<ul>
+<li>查看当前版分支对应的远程分支</li>
+</ul>
+<p>git branch -a</p>
+<ul>
+<li>能额外显示远程仓库所带的分支</li>
+</ul>
+<p>git push &lt;库名称&gt; &lt;你想push的分支(用空格隔开)&gt;&#x2F;-all(全部push)</p>
+<ul>
+<li>推送到远程仓库</li>
+<li>e.g. <code>git push origin mybranch</code></li>
+</ul>
+<p>git push &lt;远程库名称&gt; -d &lt;远程分支名称&gt;</p>
+<ul>
+<li>删除远程分支（github 模块里有介绍另一种方法）</li>
+</ul>
+<p>git checkout -b &lt;新分支&gt; origin&#x2F;&lt;新分支&gt;</p>
+<ul>
+<li>git fetch 到新的分支后，想切换到该新分支</li>
+</ul>
+<h4 id="解决git连不上github-——-代理解决方案："><a href="#解决git连不上github-——-代理解决方案：" class="headerlink" title="解决git连不上github —— 代理解决方案："></a>解决git连不上github —— 代理解决方案：</h4><ol>
+<li>检查系统代理端口，与 v2ray 设置的 http 端口要一致，记录下来</li>
+</ol>
+<p><img src="/../images/git-v2ray.png" alt="v2ray界面"><br><img src="/../images/git-internet.png" alt="系统设置界面"></p>
+<p>我这里是 10809</p>
+<ol start="2">
+<li>设置 git 代理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global http.proxy http://127.0.0.1:10809</span><br><span class="line"><span class="comment"># 10808是设置的代理者监听端口，+1则是http端口</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="实用-github"><a href="#实用-github" class="headerlink" title="实用 github"></a>实用 github</h2><h3 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h3><ul>
+<li><p>设置github默认分支：<br>  GitHub - 库 - settings - branches - default</p>
+</li>
+<li><p>删除远程分支：<br>  在GitHub上作删除操作，并在本地 git 执行 <code>git remote prune &lt;origin或你的远程库名称&gt;</code></p>
+</li>
+</ul>
+<h3 id="逛社区技巧"><a href="#逛社区技巧" class="headerlink" title="逛社区技巧"></a>逛社区技巧</h3><ul>
+<li><p>发现开源项目：<br>  掘金这样的社区，<br>  github自带trending，<br>  hellogithub这样的用户，<br>  ranyf&#x2F;weekly</p>
+</li>
+<li><p>限定词搜索：<br>  search:<br>  in:name xxx<br>  in:readme xxx<br>  in:description xxx<br>  language:xxx<br>  stars:&gt;10000<br>  pushed:&gt;2023-09-01</p>
+</li>
+<li><p>分类搜索：<br>  awesome xxx -&gt;百科大全<br>  xxx sample-&gt;例子<br>  xxx starter-&gt;项目空架子，<br>  xxx tutorial-&gt;教程</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mincergithub.github.io/2025/11/20/git/" data-id="cuidqITYR3_bKDz-Jr2ybSGru" class="article-share-link">
+        Share
+      </a>
+      
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2025/11/21/markdown/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      在源代码与效果的对照中学习 markdown 语法
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2025/11/19/mul-dino/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">mul-dino</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>Mincer &copy; 2025</li>
+      
+        <li>
+          
+            <a href="https://beian.miit.gov.cn/" target="_blank"></a>
+            
+        </li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+    <p><ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt tooltip" data-tooltip="UV"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark tooltip" data-tooltip="PV"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul></p>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="Mincer"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
