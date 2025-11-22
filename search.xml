@@ -1,188 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>cumcm</title>
-    <url>/2025/11/19/cumcm/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>desktop-doggie</title>
-    <url>/2025/11/19/desktop-doggie/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>入门级实用 git 指令和配置</title>
-    <url>/2025/11/20/git/</url>
-    <content><![CDATA[本文从功能出发，对 git 常用指令进行了介绍，适合新手快速上手
-其中夹杂几个我配置 git 时踩的坑，及解决方案
-更多 git 工作流程 相关知识，在 miniob 那篇 blog 里有介绍
-这里列几个学习资料：
-
-Github 新手够用指南
-40 分钟学会 Git | 日常开发全程大放送&amp;搭配Github
-30分钟弄懂所有工作Git必备操作
-忽略文件版本控制gitignore详解
-
-
-实用 git基本指令git clone &lt;git地址&gt;
-
-克隆仓库
-
-git init
-
-初始化仓库
-
-git add -A
-
-添加文件到暂存区
-
-git commit -m “提交信息”
-
-把暂存区的文件提交到仓库
-
-git commit –amend -m “提交信息”
-
-修正本地的commit信息
-
-git log –stat
-
-查看提交的历史记录reset
-
-分支：git checkout -b 
-
-以当前分支为基础新建分支
-
-git branch
-
-列举所有的分支
-
-git checkout 
-
-单纯地切换到某个分支
-
-git branch -D 
-
-删掉特定的分支
-
-git merge 
-
-把 branchname 合并到当前分支下
-
-git push
-
-推送当前分支最新的提交到远程
-
-git pull
-
-拉取远程分支最新的提交到本地，并与本地代码合并
-pull &#x3D; fetch + merge
-
-冲突：push分支时出现版本跟不上main的情况：git fetch upstreamgit merge upstream/maingit push
-
-修改区间冲突：git status# 然后打开给出的冲突文件，手动修改（vscode 修改很方便，其他的 vim 等文本编辑器也行）# 删除标记符号和不想要的内容后...git add &lt;fileName&gt;git commit -m&quot;合并new_branch分支并解决冲突&quot;
-
-
-后悔药：git 仓库git checkout 
-
-工作区回滚
-
-git reset HEAD^1
-
-撤销最后一次提交
-
-工作区代码
-未add：
-
-git checkout &lt;fileName&gt;  # 原理：从暂存区回复到工作区
-
-
-已add未commit：
-
-git log  # 复制最近一次 commit 的 idgit checkout commitid &lt;复制的id&gt; &lt;fileName&gt;
-
-
-已commit想恢复到之前的某次commit：同上
-
-缓存：git stash 缓存栈
-git stash# 切换分支工作后...git stash apply
-
-若想指定某次缓存的状态：
-git stashgit stash list  # 目的找到想恢复的状态：xxx# 切换分支工作后...git stash apply stash@&#123;x&#125;
-
-
-注：git stash 的本质：保存「工作区 &#x2F; 暂存区与 HEAD（最近一次提交）的差异」，并将工作区重置为 HEAD 状态因此 git stash 后，你的工作区代码会恢复到与 commit 的节点相同的状态，也就是说你修改的代码看起来全都没了，并保存在了stash stack中
-
-.gitignore不想追踪将不想追踪的文件的路径放在里面，你的 git 就不会记录这个文件的变化
-e.g. 用 * 排除 public 目录里除了 theone.txt 以外的全部的文件，则要保证该文件的父目录未排除，即：
-/public/*!/public/thatone.txt
-
-取消追踪以上只能忽略没有被追踪过的文件
-若不想再追踪已追踪过的文件，可以追加如下操作：
-git rm --cached &lt;fileName&gt;  # 若对象是目录，加上 -r 选项
-
-检查是否成功排除：
-git check-ignore -v &lt;fileName&gt;
-
-
-
-远程 remotegit remote -v
-
-查看当前版本库对应的远程仓库
-
-git branch -vv
-
-查看当前版分支对应的远程分支
-
-git branch -a
-
-能额外显示远程仓库所带的分支
-
-git push &lt;库名称&gt; &lt;你想push的分支(用空格隔开)&gt;&#x2F;-all(全部push)
-
-推送到远程仓库
-e.g. git push origin mybranch
-
-git push &lt;远程库名称&gt; -d &lt;远程分支名称&gt;
-
-删除远程分支（github 模块里有介绍另一种方法）
-
-git checkout -b &lt;新分支&gt; origin&#x2F;&lt;新分支&gt;
-
-git fetch 到新的分支后，想切换到该新分支
-
-解决git连不上github —— 代理解决方案：
-检查系统代理端口，与 v2ray 设置的 http 端口要一致，记录下来
-
-
-我这里是 10809
-
-设置 git 代理
-
-git config --global --unset http.proxygit config --global http.proxy http://127.0.0.1:10809# 10808是设置的代理者监听端口，+1则是http端口
-
-
-实用 github设置
-设置github默认分支：  GitHub - 库 - settings - branches - default
-
-删除远程分支：  在GitHub上作删除操作，并在本地 git 执行 git remote prune &lt;origin或你的远程库名称&gt;
-
-
-逛社区技巧
-发现开源项目：  掘金这样的社区，  github自带trending，  hellogithub这样的用户，  ranyf&#x2F;weekly
-
-限定词搜索：  search:  in:name xxx  in:readme xxx  in:description xxx  language:xxx  stars:&gt;10000  pushed:&gt;2023-09-01
-
-分类搜索：  awesome xxx -&gt;百科大全  xxx sample-&gt;例子  xxx starter-&gt;项目空架子，  xxx tutorial-&gt;教程
-
-
-]]></content>
-  </entry>
-  <entry>
-    <title>godot</title>
-    <url>/2025/11/19/godot/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>在源代码与效果的对照中学习 markdown 语法</title>
     <url>/2025/11/21/markdown/</url>
     <content><![CDATA[下面是一个超级全面的 markdown 语法演示文件
@@ -378,58 +196,176 @@ SQL
 ]]></content>
   </entry>
   <entry>
-    <title>meowfish —— openlab黑客松参赛记录</title>
-    <url>/2025/05/18/meowfish/</url>
-    <content><![CDATA[项目介绍针对办公场景的摸鱼网站 —— meowfish
-meowfish 网站：https://cixfjzhstlly.sealosbja.site  （没钱买服务器和域名，已失效）github 仓库：https://github.com/MincerGitHub/MeowFish
-本前端项目基于 Vue 框架；word部分涉及与后端、数据库的交互，使用 nodejs + MongoDB
-对本前端小白来说是一次非常好的 vue 项目实践（第一次正儿八经写 vue），也学到了搭建简易后端的一些细节
-作为一个 web 项目，使用的技术较为平庸；but 其亮点真正在于完整和有趣：
+    <title>入门级实用 git 指令和配置</title>
+    <url>/2025/11/20/git/</url>
+    <content><![CDATA[本文从功能出发，对 git 常用指令进行了介绍，适合新手快速上手
+其中夹杂几个我配置 git 时踩的坑，及解决方案
+更多 git 工作流程 相关知识，在 miniob 那篇 blog 里有介绍
+这里列几个学习资料：
 
-以体制内群体的摸鱼需求为出发点，搜集各方建议，给出完整方案
-能在短短一个周末的时间内（不算上满课的白天……），上线一个能顺利跑的网站
-对着各种办公软件界面进行脑暴，最终融合了最适合他们的小游戏
-
- 
-    显示具体内容 
-     
-        word     - 随机文本阅览器
-        excel    - 贪吃蛇
-        ppt      - 扫雷
-        ps       - dino run
-        vscode   - 随机报错
-        notebook - 成语接龙
-     
+Github 新手够用指南
+40 分钟学会 Git | 日常开发全程大放送&amp;搭配Github
+30分钟弄懂所有工作Git必备操作
+忽略文件版本控制gitignore详解
 
 
-记录code在本地搭建倒是没遇到什么技术难题
-但在部署上线的过程中，遇到了很多实践上的问题，不停找资料，未知变已知。
-下面列举几项有用的 web 上线资料（入门级）：
+实用 git基本指令git clone &lt;git地址&gt;
 
-vue 文档
-vite 文档
-使用 vue
-DeepSeek+Cursor+Devbox+Sealos - 项目的设计、开发、测试、联调、部署全流程
+克隆仓库
 
-life记录一点片段：
+git init
 
-王老师上完晚课转身向窝点走去
-讨论完idea后第一件事是打开网课
-两个人半夜不知道在燃什么但是燃就完了
-武术之王熬夜后早八飘然打拳
-零食聚起来像在野餐
-看见脏东西了
-马上路演但是超绝有气无力……
+初始化仓库
 
-反思与心得两天两夜，马不停蹄的周末（实则白天满课，只有通宵换来的时间）
-非常好熬夜使我更加秃头👍
+git add -A
 
-实践出新知 ?实践出新知 √    （怎么学无止境啊……（抱怨））
+添加文件到暂存区
 
-实践的重要性不容小觑，在其中会学到更多细节，有助于得到成果
-前端入门的没有想象的这么快，需要有上强度的决心（握拳）
-跟大家一起干的时候，心情很高涨，但专注度较低
+git commit -m “提交信息”
+
+把暂存区的文件提交到仓库
+
+git commit –amend -m “提交信息”
+
+修正本地的commit信息
+
+git log –stat
+
+查看提交的历史记录reset
+
+分支：git checkout -b 
+
+以当前分支为基础新建分支
+
+git branch
+
+列举所有的分支
+
+git checkout 
+
+单纯地切换到某个分支
+
+git branch -D 
+
+删掉特定的分支
+
+git merge 
+
+把 branchname 合并到当前分支下
+
+git push
+
+推送当前分支最新的提交到远程
+
+git pull
+
+拉取远程分支最新的提交到本地，并与本地代码合并
+pull &#x3D; fetch + merge
+
+冲突：push分支时出现版本跟不上main的情况：git fetch upstreamgit merge upstream/maingit push
+
+修改区间冲突：git status# 然后打开给出的冲突文件，手动修改（vscode 修改很方便，其他的 vim 等文本编辑器也行）# 删除标记符号和不想要的内容后...git add &lt;fileName&gt;git commit -m&quot;合并new_branch分支并解决冲突&quot;
+
+
+后悔药：git 仓库git checkout 
+
+工作区回滚
+
+git reset HEAD^1
+
+撤销最后一次提交
+
+工作区代码
+未add：
+
+git checkout &lt;fileName&gt;  # 原理：从暂存区回复到工作区
+
+
+已add未commit：
+
+git log  # 复制最近一次 commit 的 idgit checkout commitid &lt;复制的id&gt; &lt;fileName&gt;
+
+
+已commit想恢复到之前的某次commit：同上
+
+缓存：git stash 缓存栈
+git stash# 切换分支工作后...git stash apply
+
+若想指定某次缓存的状态：
+git stashgit stash list  # 目的找到想恢复的状态：xxx# 切换分支工作后...git stash apply stash@&#123;x&#125;
+
+
+注：git stash 的本质：保存「工作区 &#x2F; 暂存区与 HEAD（最近一次提交）的差异」，并将工作区重置为 HEAD 状态因此 git stash 后，你的工作区代码会恢复到与 commit 的节点相同的状态，也就是说你修改的代码看起来全都没了，并保存在了stash stack中
+
+.gitignore不想追踪将不想追踪的文件的路径放在里面，你的 git 就不会记录这个文件的变化
+e.g. 用 * 排除 public 目录里除了 theone.txt 以外的全部的文件，则要保证该文件的父目录未排除，即：
+/public/*!/public/thatone.txt
+
+取消追踪以上只能忽略没有被追踪过的文件
+若不想再追踪已追踪过的文件，可以追加如下操作：
+git rm --cached &lt;fileName&gt;  # 若对象是目录，加上 -r 选项
+
+检查是否成功排除：
+git check-ignore -v &lt;fileName&gt;
+
+
+
+远程 remotegit remote -v
+
+查看当前版本库对应的远程仓库
+
+git branch -vv
+
+查看当前版分支对应的远程分支
+
+git branch -a
+
+能额外显示远程仓库所带的分支
+
+git push &lt;库名称&gt; &lt;你想push的分支(用空格隔开)&gt;&#x2F;-all(全部push)
+
+推送到远程仓库
+e.g. git push origin mybranch
+
+git push &lt;远程库名称&gt; -d &lt;远程分支名称&gt;
+
+删除远程分支（github 模块里有介绍另一种方法）
+
+git checkout -b &lt;新分支&gt; origin&#x2F;&lt;新分支&gt;
+
+git fetch 到新的分支后，想切换到该新分支
+
+解决git连不上github —— 代理解决方案：
+检查系统代理端口，与 v2ray 设置的 http 端口要一致，记录下来
+
+
+我这里是 10809
+
+设置 git 代理
+
+git config --global --unset http.proxygit config --global http.proxy http://127.0.0.1:10809# 10808是设置的代理者监听端口，+1则是http端口
+
+
+实用 github设置
+设置github默认分支：  GitHub - 库 - settings - branches - default
+
+删除远程分支：  在GitHub上作删除操作，并在本地 git 执行 git remote prune &lt;origin或你的远程库名称&gt;
+
+
+逛社区技巧
+发现开源项目：  掘金这样的社区，  github自带trending，  hellogithub这样的用户，  ranyf&#x2F;weekly
+
+限定词搜索：  search:  in:name xxx  in:readme xxx  in:description xxx  language:xxx  stars:&gt;10000  pushed:&gt;2023-09-01
+
+分类搜索：  awesome xxx -&gt;百科大全  xxx sample-&gt;例子  xxx starter-&gt;项目空架子，  xxx tutorial-&gt;教程
+
+
 ]]></content>
+  </entry>
+  <entry>
+    <title>zillion-energy</title>
+    <url>/2025/11/19/zillion-energy/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>miniob参赛记录与心得（OceanBase计算机系统能力大赛）</title>
@@ -564,9 +500,119 @@ clone：
 ]]></content>
   </entry>
   <entry>
-    <title>mul-dino</title>
-    <url>/2025/11/19/mul-dino/</url>
+    <title>cumcm</title>
+    <url>/2025/09/07/cumcm/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>mul-dino —— 人工智能方法接入谷歌小恐龙游戏</title>
+    <url>/2025/06/11/mul-dino/</url>
+    <content><![CDATA[记录跑原项目包都过期了，换包
+盘源码逻辑从 apps 入手，模型和游戏代码
+修改 NNModel（练手）
+添加下蹲预测状态
+修改 Model 的损失函数：均方误差 -&gt; 交叉熵损失，更适应多选项预测
+
+新建 DQNModel（Deep Q-Learning Network）
+优化 reward（为了方便，我直接把 reward 写在小恐龙的代码而不是 AI 的代码里，对性能可能有一丢丢影响？）
+引入优先级经验回放机制，根据 TD-Error 优先采样对模型改进潜力更大的经验（后续又在 tdError 中加入 reward 的权重）
+将实时状态得出的经验加入经验池，训练效率大大提升（（（其实本来就该这样？我一直在模仿别的模型，只把小恐龙死亡那一刻的数据用来训练
+
+
+改进方案
+优化 dqn.js
+加个面板，监控模型的训练情况并做可视化（之前Mnist手写识别实验的那种）
+在 TrexGroup.js 里调参 —— reward 的影响因素
+新建 PPO、Dueling Q-Learning…… 别的类型的模型
+包装：美化界面&#x2F;串联成一个教学项目
+
+
+资料Chrome自带恐龙小游戏的源码研究(一)前端人工智能？TensorFlow.js 学会游戏通关PPO、DQN、A2C
+
+反思与总结
+借机熟悉了开源项目的学习流程：  了解项目的前因后果 -&gt; 本地跑原项目 -&gt; 拆结构，盘代码 -&gt; 在对项目的理解基础上，做出自己的修改
+面对这种大作业，大家各有各的做法；只需记住，投入就有回报的机会。我无疑对 AI 的代码实践有了更加深刻的理解
+工程和实验密不可分。我现在学习的每一点工程知识，都会对未来的研究有帮助。只要在学，在做，就没有浪费时间一说
+把自己的实现思路完整清晰地表达出来 —— 我缺少这种能力，有待加强即时思考的能力
+
+]]></content>
+  </entry>
+  <entry>
+    <title>meowfish —— openlab黑客松参赛记录</title>
+    <url>/2025/05/18/meowfish/</url>
+    <content><![CDATA[项目介绍针对办公场景的摸鱼网站 —— meowfish
+meowfish 网站：https://cixfjzhstlly.sealosbja.site  （没钱买服务器和域名，已失效）github 仓库：https://github.com/MincerGitHub/MeowFish
+本前端项目基于 Vue 框架；word部分涉及与后端、数据库的交互，使用 nodejs + MongoDB
+对本前端小白来说是一次非常好的 vue 项目实践（第一次正儿八经写 vue），也学到了搭建简易后端的一些细节
+作为一个 web 项目，使用的技术较为平庸；but 其亮点真正在于完整和有趣：
+
+以体制内群体的摸鱼需求为出发点，搜集各方建议，给出完整方案
+能在短短一个周末的时间内（不算上满课的白天……），上线一个能顺利跑的网站
+对着各种办公软件界面进行脑暴，最终融合了最适合他们的小游戏
+
+ 
+    显示具体内容 
+     
+        word     - 随机文本阅览器
+        excel    - 贪吃蛇
+        ppt      - 扫雷
+        ps       - dino run
+        vscode   - 随机报错
+        notebook - 成语接龙
+     
+
+
+记录code在本地搭建倒是没遇到什么技术难题
+但在部署上线的过程中，遇到了很多实践上的问题，不停找资料，未知变已知。
+下面列举几项有用的 web 上线资料（入门级）：
+
+vue 文档
+vite 文档
+使用 vue
+DeepSeek+Cursor+Devbox+Sealos - 项目的设计、开发、测试、联调、部署全流程
+
+life记录一点片段：
+
+王老师上完晚课转身向窝点走去
+讨论完idea后第一件事是打开网课
+两个人半夜不知道在燃什么但是燃就完了
+武术之王熬夜后早八飘然打拳
+零食聚起来像在野餐
+看见脏东西了
+马上路演但是超绝有气无力……
+
+反思与心得两天两夜，马不停蹄的周末（实则白天满课，只有通宵换来的时间）
+非常好熬夜使我更加秃头👍
+
+实践出新知 ?实践出新知 √    （怎么学无止境啊……（抱怨））
+
+实践的重要性不容小觑，在其中会学到更多细节，有助于得到成果
+前端入门的没有想象的这么快，需要有上强度的决心（握拳）
+跟大家一起干的时候，心情很高涨，但专注度较低
+]]></content>
+  </entry>
+  <entry>
+    <title>天问51-stm32电子桌宠制作</title>
+    <url>/2025/05/14/desktop-doggie/</url>
+    <content><![CDATA[记录
+学习B站“菜鸡专属”教程
+
+准备零件： ST-LINK烧录器、ASR-LINK 烧录器、3D 打印的壳子、PCB板子、一堆杜邦线、屏幕、舵机、电池、流水灯、喇叭、ASR-PRO 语音模块、蓝牙模块等
+
+在天问51软件中为语音模块编程，安装自定义的的问答语音
+
+
+
+详细代码如下：
+#include &quot;asr.h&quot;extern &quot;C&quot;&#123; void * __dso_handle = 0 ;&#125;#include &quot;setup.h&quot;#include &quot;myLib/asr_ws2812.h&quot;#include &quot;asr_math.h&quot;#include &quot;HardwareSerial.h&quot;#include &quot;myLib/asr_event.h&quot;uint32_t snid;void breath();void random2();void flowing();void flash();void close();void ASR_CODE();QueueHandle_t message1=NULL;uint32_t rec_1 = 0;uint32_t var = 0;int16_t light = 0;int16_t light_d = 1;uint8_t random3 = random(1, 5+1);uint8_t random22 = random(1, 5+1);uint8_t f1 = random(1, 3+1);void A1();void UART2_RX();//&#123;speak:小萌-可爱女童,vol:10,speed:10,platform:haohaodada&#125;//&#123;playid:10001,voice:&#125;//&#123;playid:10002,voice:不要走汪汪汪&#125;WS2812 ASR_WS2812_2(2);/*描述该功能...*/void breath()&#123;  if(light == 0)&#123;    light_d = 1;  &#125;  if(light == 150)&#123;    light_d = -1;  &#125;  light = light + light_d;  ASR_WS2812_2.setBrightness(light);  ASR_WS2812_2.pixel_set_all_color(255,0,0);  ASR_WS2812_2.pixel_show();  delay(5);&#125;/*描述该功能...*/void random2()&#123;  ASR_WS2812_2.pixel_set_all_color((random(1, 256+1)),(random(1, 256+1)),(random(1, 256+1)));  ASR_WS2812_2.pixel_show();&#125;/*描述该功能...*/void flowing()&#123;  for (int i = 0; i &lt; 30; i = i + 1) &#123;    ASR_WS2812_2.setBrightness(255);    ASR_WS2812_2.pixel_set_color(i,136,255,255);    delay(50);    ASR_WS2812_2.pixel_show();  &#125;&#125;/*描述该功能...*/void flash()&#123;  ASR_WS2812_2.setBrightness(150);  ASR_WS2812_2.pixel_set_all_color(255,0,0);  ASR_WS2812_2.pixel_show();  delay(500);  ASR_WS2812_2.pixel_clear();  ASR_WS2812_2.pixel_show();  delay(500);&#125;/*描述该功能...*/void close()&#123;  ASR_WS2812_2.pixel_clear();  ASR_WS2812_2.pixel_show();  rec_1 = 0;&#125;/*描述该功能...*/void ASR_CODE()&#123;  set_state_enter_wakeup(60000);  set_state_enter_wakeup(40000);  switch (snid) &#123;   case 1:    var = xQueueSend(message1,&amp;snid,0);    break;   case 2:    var = xQueueSend(message1,&amp;snid,0);    break;   case 3:    var = xQueueSend(message1,&amp;snid,0);    break;   case 4:    var = xQueueSend(message1,&amp;snid,0);    break;   case 5:    var = xQueueSend(message1,&amp;snid,0);    break;   case 6:    var = xQueueSend(message1,&amp;snid,0);    break;   case 7:    var = xQueueSend(message1,&amp;snid,0);    break;   case 8:    Serial2.print(&quot;a&quot;);    break;   case 9:    Serial2.print(&quot;b&quot;);    break;   case 11:    Serial2.print(&quot;e&quot;);    break;   case 12:    Serial2.print(&quot;d&quot;);    break;   case 13:    Serial2.print(&quot;f&quot;);    break;   case 14:    Serial2.print(&quot;g&quot;);    break;   case 15:    Serial2.print(&quot;h&quot;);    break;   case 801:    f1 = random(1, 3+1);    if(f1 == 1)&#123;      //&#123;playid:10500,voice:在想你&#125;      play_audio(10500);      Serial2.print(&quot;2&quot;);    &#125;    if(f1 == 2)&#123;      //&#123;playid:10501,voice:秘密&#125;      play_audio(10501);      Serial2.print(&quot;a&quot;);    &#125;    if(f1 == 3)&#123;      //&#123;playid:10502,voice:在码字&#125;      play_audio(10502);      Serial2.print(&quot;5&quot;);    &#125;    break;  &#125;&#125;void A1()&#123;  while (1) &#123;    if(xQueueReceive(message1,&amp;rec_1,0))&#123;      if(rec_1 == 1)&#123;        flowing();      &#125;      else if(rec_1 == 2)&#123;        close();      &#125;      else if(rec_1 == 7)&#123;        random2();      &#125;    &#125;    if(rec_1 == 3)&#123;      breath();    &#125;    else if(rec_1 == 4)&#123;      flash();    &#125;    else if(rec_1 == 5)&#123;      ASR_WS2812_2.rainbowCycle(5);    &#125;    else if(rec_1 == 6)&#123;      ASR_WS2812_2.rainbow(5);    &#125;    if(rec_1 == 3)&#123;      breath();    &#125;    else if(rec_1 == 4)&#123;      flash();    &#125;    else if(rec_1 == 5)&#123;      ASR_WS2812_2.rainbowCycle(5);    &#125;    else if(rec_1 == 6)&#123;      ASR_WS2812_2.rainbow(5);    &#125;  &#125;  vTaskDelete(NULL);&#125;void UART2_RX()&#123;  while (1) &#123;    if(Serial2.available() &gt; 0)&#123;      String rec = Serial2.readString();      if(rec == &quot;toch&quot;)&#123;        delay(200);        enter_wakeup(30000);        delay(200);        random3 = random(1, 5+1);        if(random3 == 1)&#123;          //&#123;playid:10503,voice:啦啦啦&#125;          play_audio(10503);          Serial2.print(&quot;2&quot;);        &#125;        if(random3 == 2)&#123;          //&#123;playid:10504,voice:喜欢摸摸&#125;          play_audio(10504);          Serial2.print(&quot;1&quot;);        &#125;        if(random3 == 3)&#123;          //&#123;playid:10505,voice:陪我玩&#125;          play_audio(10505);          Serial2.print(&quot;3&quot;);        &#125;        if(random3 == 4)&#123;          //&#123;playid:10506,voice:饿饿&#125;          play_audio(10506);          Serial2.print(&quot;4&quot;);        &#125;        if(random3 == 5)&#123;          //&#123;playid:10507,voice:危险危险&#125;          play_audio(10507);          Serial2.print(&quot;5&quot;);        &#125;      &#125;      else if(rec == &quot;toch2&quot;)&#123;        delay(200);        enter_wakeup(30000);        delay(200);        random22 = random(1, 5+1);        if(random22 == 1)&#123;          //&#123;playid:10508,voice:啦啦啦&#125;          play_audio(10508);          Serial2.print(&quot;2&quot;);        &#125;        if(random22 == 2)&#123;          //&#123;playid:10509,voice:喜欢摸摸&#125;          play_audio(10509);          Serial2.print(&quot;1&quot;);        &#125;        if(random22 == 3)&#123;          //&#123;playid:10510,voice:陪我玩&#125;          play_audio(10510);          Serial2.print(&quot;3&quot;);        &#125;        if(random22 == 4)&#123;          //&#123;playid:10511,voice:饿饿&#125;          play_audio(10511);          Serial2.print(&quot;4&quot;);        &#125;        if(random22 == 5)&#123;          //&#123;playid:10512,voice:危险危险&#125;          play_audio(10512);          Serial2.print(&quot;5&quot;);        &#125;      &#125;    &#125;    delay(2);  &#125;  vTaskDelete(NULL);&#125;void hardware_init()&#123;  message1=xQueueCreate(5,4);  xTaskCreate(A1,&quot;A1&quot;,512,NULL,4,NULL);  vol_set(5);  setPinFun(5,FORTH_FUNCTION);  setPinFun(6,FORTH_FUNCTION);  Serial2.begin(9600);  Serial2.setTimeout(10);  xTaskCreate(UART2_RX,&quot;UART2_RX&quot;,128,NULL,4,NULL);  vTaskDelete(NULL);&#125;void setup()&#123;  //&#123;ID:100,keyword:&quot;唤醒词&quot;,ASR:&quot;哈基&quot;,ASRTO:&quot;主人&quot;&#125;  //&#123;ID:1,keyword:&quot;命令词&quot;,ASR:&quot;开灯&quot;,ASRTO:&quot;开灯了汪&quot;&#125;  //&#123;ID:2,keyword:&quot;命令词&quot;,ASR:&quot;关灯&quot;,ASRTO:&quot;好黑好黑&quot;&#125;  //&#123;ID:3,keyword:&quot;命令词&quot;,ASR:&quot;呼吸&quot;,ASRTO:&quot;呼吸灯汪&quot;&#125;  //&#123;ID:4,keyword:&quot;命令词&quot;,ASR:&quot;闪光&quot;,ASRTO:&quot;闪光灯汪&quot;&#125;  //&#123;ID:5,keyword:&quot;命令词&quot;,ASR:&quot;彩虹&quot;,ASRTO:&quot;彩虹灯汪&quot;&#125;  //&#123;ID:6,keyword:&quot;命令词&quot;,ASR:&quot;流水灯&quot;,ASRTO:&quot;流水灯汪&quot;&#125;  //&#123;ID:7,keyword:&quot;命令词&quot;,ASR:&quot;随机灯&quot;,ASRTO:&quot;随机灯光汪&quot;&#125;  //&#123;ID:101,keyword:&quot;命令词&quot;,ASR:&quot;哈基哈基&quot;,ASRTO:&quot;主人主人&quot;&#125;  //&#123;ID:13,keyword:&quot;命令词&quot;,ASR:&quot;喜欢&quot;,ASRTO:&quot;我喜欢你&quot;&#125;  //&#123;ID:8,keyword:&quot;命令词&quot;,ASR:&quot;起来&quot;,ASRTO:&quot;汪汪&quot;&#125;  //&#123;ID:9,keyword:&quot;命令词&quot;,ASR:&quot;过来&quot;,ASRTO:&quot;来力&quot;&#125;  //&#123;ID:11,keyword:&quot;命令词&quot;,ASR:&quot;趴&quot;,ASRTO:&quot;我要摸摸&quot;&#125;  //&#123;ID:12,keyword:&quot;命令词&quot;,ASR:&quot;跳舞&quot;,ASRTO:&quot;jump more jump&quot;&#125;  //&#123;ID:14,keyword:&quot;命令词&quot;,ASR:&quot;左&quot;,ASRTO:&quot;左边左边&quot;&#125;  //&#123;ID:15,keyword:&quot;命令词&quot;,ASR:&quot;右&quot;,ASRTO:&quot;右边右边&quot;&#125;  //&#123;ID:801,keyword:&quot;命令词&quot;,ASR:&quot;在干嘛&quot;,ASRTO:&quot;&quot;&#125;  //&#123;ID:802,keyword:&quot;命令词&quot;,ASR:&quot;早安&quot;,ASRTO:&quot;姨姨早安&quot;&#125;  //&#123;ID:803,keyword:&quot;命令词&quot;,ASR:&quot;晚安&quot;,ASRTO:&quot;晚安姨姨&quot;&#125;  ASR_WS2812_2.pixel_init(5);&#125;
+
+–
+反思与总结小狗萌的不行
+动手尝试、玩玩未知领域很开心，当小狗能正常听指令的时候，真的很爽
+这种轻松的“捣鼓”，可以在今后作为一项放松心情的方式呢
+话说真的轻松吗）身体上可能熬了几个夜吃不消，但精神上一定是放松快乐的
+不过，没来得及自己设计动作就送出去了，有点可惜
+]]></content>
   </entry>
   <entry>
     <title>myblog</title>
@@ -577,6 +623,29 @@ clone：
 停下来
 梳理、反思、总结
 希望写 blog 能让我获得片刻宁静
+]]></content>
+  </entry>
+  <entry>
+    <title>冒个泡 —— Global Game Jam 小游戏</title>
+    <url>/2025/01/22/godot/</url>
+    <content><![CDATA[记录跟着zhitiangg、卡西沃茨大人、铠力大人，莫名其妙做了个回消息小游戏出来
+资源好像删了）暂且先不在这里放了
+尝试了很多与游戏和美工相关的新工具：
+
+godot 游戏引擎
+Figma UI稿（做商软挺好用，但游戏里用不太到）
+Photoshop 上渲染
+Aseprite 像素画轻量级工具
+板子（
+
+
+资料下面列几个学习 godot 和像素画时的资料：
+godot 文档Godot 4 教程《勇者传说》42分钟内解释所有219个 Godot 节点独立游戏像素画入门教程从0绘制一套游戏像素画
+
+反思与总结比起工具，更重要的是功底
+原来和大家一起做游戏这么好玩……下次还要参加开发活动！
+不过济南的场地有些hhhhh，当时还停电了一段时间
+中途发生了很多令人难忘的事情……该如何做？再次痛恨自己的优柔寡断……
 ]]></content>
   </entry>
   <entry>
@@ -611,10 +680,5 @@ HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\RunHKEY_LOCAL_MACHIN
 桌面右键菜单HKEY_CLASSES_ROOT\Directory\Background
 所有的文件右键菜单HKEY_CLASSES_ROOT*\shellHKEY_CLASSES_ROOT*\shellex\ContextMenuHandlers（shellex的内容都是加密的）
 ]]></content>
-  </entry>
-  <entry>
-    <title>zillion-energy</title>
-    <url>/2025/11/19/zillion-energy/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
